@@ -1,37 +1,288 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Seed-to-Social Growth Engine
 
-## Getting Started
+A growth-focused content platform that turns one raw idea into platform-ready social media posts and tracks how users interact with the tool.
 
-First, run the development server:
+---
+
+## 🚀 Overview
+
+Seed-to-Social solves a real creator problem:
+
+> People don’t struggle to come up with ideas — they struggle to **turn one idea into consistent, multi-platform content** and understand what actually works.
+
+This project is built as a **growth engineering system**, not just an AI tool.
+
+It combines:
+
+* AI content generation
+* platform validation
+* export workflows
+* user analytics
+* attribution tracking
+* feedback collection
+
+---
+
+## 🧠 Problem
+
+Creators often:
+
+* Start from a blank page every time
+* Don’t repurpose content effectively
+* Have no feedback loop on what works
+* Don’t track how users interact with their content
+
+---
+
+## 💡 Solution
+
+Seed-to-Social:
+
+1. Takes a single “seed idea”
+2. Generates platform-specific content for:
+
+   * X (Twitter)
+   * LinkedIn
+   * Instagram
+   * TikTok
+   * Pinterest
+3. Validates content against platform constraints
+4. Exports a scheduling-ready CSV
+5. Tracks user actions and feedback
+6. Captures acquisition source using UTM parameters
+
+---
+
+## ⚙️ Features
+
+### ✨ AI Content Generation
+
+* Uses local LLM via Ollama (zero API cost)
+* Generates structured content per platform
+* Includes hooks, captions, hashtags, and prompts
+
+---
+
+### 🧪 Platform Validation
+
+* X character limit checks (280)
+* Pinterest title/description limits
+* Missing CTA detection
+* Hashtag quality checks
+
+---
+
+### 📤 CSV Export (Buffer-aligned)
+
+* Converts generated content into structured CSV
+* Ready for scheduling workflows
+
+---
+
+### 📊 Event Tracking
+
+Tracks user behavior:
+
+* `page_viewed`
+* `generator_started`
+* `generation_completed`
+* `csv_exported`
+* `feedback_submitted`
+
+---
+
+### 🔗 UTM Attribution
+
+Captures:
+
+* `utm_source`
+* `utm_medium`
+* `utm_campaign`
+
+Example:
+
+```
+/?utm_source=instagram_story&utm_campaign=test
+```
+
+This enables tracking:
+
+> Where users came from and how they convert
+
+---
+
+### 🗣️ User Feedback Loop
+
+After generation:
+
+* “Was this useful?” → Yes / Maybe / No
+* Optional feedback notes
+
+---
+
+### 📈 Dashboard
+
+Displays:
+
+* Generations
+* Exports
+* Conversion rates
+* Feedback breakdown
+* Recent activity
+
+---
+
+### 🗄️ Supabase Integration
+
+* Stores events and generations
+* Enables persistent analytics
+* Ready for future growth features
+
+---
+
+## 🧱 Tech Stack
+
+* **Frontend:** Next.js, React, TypeScript
+* **AI:** Ollama (local LLM)
+* **Database:** Supabase (PostgreSQL)
+* **Analytics:** Custom event tracking
+* **Styling:** Tailwind CSS
+
+---
+
+## 🔄 User Flow
+
+```
+Landing Page
+↓
+User enters seed idea
+↓
+Selects tone + platforms
+↓
+AI generates content
+↓
+Validation feedback shown
+↓
+User exports CSV
+↓
+Event + UTM tracked
+↓
+User submits feedback
+↓
+Dashboard updates
+```
+
+---
+
+## 🎯 Growth Engineering Angle
+
+This project demonstrates:
+
+* Building **user-facing marketing tools**
+* Designing **activation flows**
+* Tracking **user behavior and conversion**
+* Capturing **acquisition sources (UTM)**
+* Creating a **feedback loop**
+* Making **data-driven product decisions**
+
+---
+
+## ▶️ Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/your-username/seed-to-social-growth-engine.git
+cd seed-to-social-growth-engine
+```
+
+---
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 3. Setup environment variables
+
+Create `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+---
+
+### 4. Run the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### 5. Run Ollama (for AI)
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+ollama run llama3.2
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧪 Example Test URL
 
-## Deploy on Vercel
+```
+http://localhost:3000/?utm_source=instagram_story&utm_campaign=first_user_test
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# seed-to-social-growth-engineer
+## 📹 Demo
+
+(Add your demo video link here)
+
+---
+
+## 🧭 Future Improvements
+
+* A/B testing infrastructure
+* SEO programmatic pages
+* Real-time analytics (PostHog)
+* User authentication
+* Direct Buffer API integration
+
+---
+
+## 🧨 Key Insight
+
+> This is not just a content generator.
+> It is a **growth system** that connects idea → content → user action → feedback → analytics.
+
+---
+
+## 📌 Why This Project
+
+Built to align with the **Growth Engineering** mindset at Buffer:
+
+* Ship fast
+* Measure everything
+* Learn from users
+* Iterate based on data
+
+---
+
+## 👋 Author
+
+(Your Name)
+
+---

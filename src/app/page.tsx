@@ -9,7 +9,9 @@ export default function Home() {
 
   useEffect(()=>{
     captureUtm();
-    trackEvent({eventName: "page_view", metaData: {page: "home"}})
+    (async () => {
+      await trackEvent({eventName: "page_view", metaData: {page: "home"}});
+    })();
   }, []);
 
   return (

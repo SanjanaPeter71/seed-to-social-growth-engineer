@@ -5,6 +5,7 @@ import type { CampaignOutput, Platform, Tone} from "@/src/types/campaign";
 import { downloadCsv } from "@/src/lib/csv";
 import { validateCampaign } from "@/src/lib/validation";
 import { trackEvent } from "@/src/lib/tracking";
+import { saveGeneration } from "@/src/lib/generations";
 
 const platforms: Platform[] = ["x", "linkedin", "instagram", "tiktok", "pinterest"];
 
@@ -28,7 +29,7 @@ export default function ToolPage() {
         setLoading(true);
         setOutput(null);
 
-        trackEvent({
+        await trackEvent({
           eventName: "generator_started",
           metaData: {
             tone,
@@ -51,6 +52,7 @@ export default function ToolPage() {
           data = (await response.json()) as { error?: string; output?: CampaignOutput };
         } catch {
           data = {};
+
         }
 
         setLoading(false);
@@ -66,16 +68,24 @@ export default function ToolPage() {
         }
 
         setOutput(data.output);
+        await saveGeneration({
+          seed,
+          audience,
+          tone,
+          platforms: selectedPlatforms,
+          output: data.output,
+        });
+
         const warnings = validateCampaign(data.output);
         if (warnings.length > 0) {
             alert("Warnings:\n" + warnings.join("\n"));
-            trackEvent({
+            await trackEvent({
               eventName: "generation_completed",
               metaData: { tone, platforms: selectedPlatforms },
             });        
         }
 
-        trackEvent({
+      await trackEvent({
           eventName: "generation_completed",
           metaData: {
             tone,
@@ -90,10 +100,10 @@ export default function ToolPage() {
         );
     }
 
-    function submitFeedback(answer: "yes" | "maybe" | "no") {
+    async function submitFeedback(answer: "yes" | "maybe" | "no") {
       setFeedback(answer);
 
-      trackEvent({
+      await trackEvent({
         eventName: "feedback_submitted",
         metaData: {
           answer,
@@ -279,9 +289,9 @@ export default function ToolPage() {
             )}
             {output && (
                 <button
-                onClick={() => {
+                onClick={async () => {
                   downloadCsv(output);
-                  trackEvent({ eventName: "csv_exported" , metaData: { tone, platforms: selectedPlatforms } });
+                  await trackEvent({ eventName: "csv_exported" , metaData: { tone, platforms: selectedPlatforms } });
                 }}
                 className="w-full rounded-xl bg-emerald-400 px-4 py-3 font-medium text-black"
             >

@@ -4,8 +4,10 @@ export type UtmData = {
     campaign?: string;
 };
 
-export function captureUtm(){
-    if(typeof window === "undefined") return;
+const UTM_STORAGE_KEY = "seed_to_social_utm";
+
+export function captureUtm() {
+    if (typeof window === "undefined") return;
 
     const params = new URLSearchParams(window.location.search);
     const utmData: UtmData = {
@@ -14,14 +16,14 @@ export function captureUtm(){
         campaign: params.get("utm_campaign") || undefined,
     };
 
-    if(utmData.source || utmData.campaign){
-        localStorage.setItem("utm_data", JSON.stringify(utmData));
+    if (utmData.source || utmData.medium || utmData.campaign) {
+        localStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(utmData));
     }
 }
 
-export function getUtm():UtmData {
-    if(typeof window === "undefined") return {};
+export function getUtm(): UtmData {
+    if (typeof window === "undefined") return {};
 
-    const stored = localStorage.getItem("seed_to_social_utm");
-    return stored ? JSON.parse(stored) : { medium: "unknown" };         
+    const stored = localStorage.getItem(UTM_STORAGE_KEY);
+    return stored ? (JSON.parse(stored) as UtmData) : {};
 }

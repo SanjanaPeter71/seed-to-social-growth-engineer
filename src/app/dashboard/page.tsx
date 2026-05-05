@@ -1,13 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getEvents, EventPayload } from "@/src/lib/tracking";
+import { getDbEvents, EventPayload } from "@/src/lib/tracking";
+
+type TrackedEvent = {
+  id: string;
+  eventName: string;
+  path: string;
+  utm?: Record<string, unknown>;
+  metaData?: Record<string, unknown>;
+  created_at: string;
+};
 
 export default function DashboardPage() {
-  const [events, setEvents] = useState<EventPayload[]>([]);
+  const [events, setEvents] = useState<TrackedEvent[]>([]);
 
   useEffect(() => {
-    setEvents(getEvents());
+    async function loadEvents() {
+      const dbEvents = await getDbEvents();
+      setEvents(dbEvents as TrackedEvent[]);
+    }
+
+    loadEvents();
   }, []);
 
   const count = (eventName: string) =>
@@ -19,6 +33,9 @@ export default function DashboardPage() {
 
   const completionRate = started ? Math.round((completed / started) * 100) : 0;
   const exportRate = completed ? Math.round((exported / completed) * 100) : 0;
+
+  // const count = (eventName: string) =>
+  // events.filter((event) => event.eventName === eventName).length;
 
   const feedbackEvents = events.filter(
     (event) => event.eventName === "feedback_submitted"
@@ -35,6 +52,7 @@ export default function DashboardPage() {
   const no = feedbackEvents.filter(
     (event) => event.metaData?.answer === "no"
   ).length;
+
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
@@ -62,7 +80,7 @@ export default function DashboardPage() {
             {events.slice().reverse().map((event, index) => (
               <div key={index} className="rounded-xl bg-zinc-950 p-3 text-sm">
                 <p className="font-medium">{event.eventName}</p>
-                <p className="text-zinc-500">{event.timestamp ?? "No timestamp"}</p>
+                <p className="text-zinc-500">{event.created_at ?? "No timestamp"}</p>
               </div>
             ))}
           </div>
